@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:5.0
+    container_name: local_mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+      - ./scripts/mongo-init
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_admin
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - PORT=8081
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234
+      - ME_CONFIG_MONGODB_SERVER=local_mongodb
+    links:
+      - "mongodb"

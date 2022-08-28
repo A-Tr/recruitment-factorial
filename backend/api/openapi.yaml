@@ -1,0 +1,221 @@
+components:
+    examples: {}
+    headers: {}
+    parameters: {}
+    requestBodies: {}
+    responses: {}
+    schemas:
+        MetricAverage:
+            properties:
+                timestamp:
+                    type: string
+                average:
+                    type: number
+                    format: double
+            required:
+                - timestamp
+                - average
+            type: object
+            additionalProperties: false
+        GetMetricsResponse:
+            properties:
+                temperature:
+                    items:
+                        $ref: '#/components/schemas/MetricAverage'
+                    type: array
+                voltage:
+                    items:
+                        $ref: '#/components/schemas/MetricAverage'
+                    type: array
+                humidity:
+                    items:
+                        $ref: '#/components/schemas/MetricAverage'
+                    type: array
+            required:
+                - temperature
+                - voltage
+                - humidity
+            type: object
+            additionalProperties: false
+        MetricsGroupBy:
+            type: string
+            enum:
+                - minute
+                - hour
+                - day
+        FlattenMaps_T_:
+            properties: {}
+            type: object
+        MetricDb:
+            $ref: '#/components/schemas/FlattenMaps_T_'
+        ObjectId:
+            type: string
+        Metric:
+            properties:
+                name:
+                    type: string
+                value:
+                    type: number
+                    format: double
+                timestamp:
+                    type: number
+                    format: double
+            required:
+                - name
+                - value
+                - timestamp
+            type: object
+            additionalProperties: false
+        LoginResponse:
+            properties:
+                email:
+                    type: string
+                token:
+                    type: string
+            required:
+                - email
+                - token
+            type: object
+            additionalProperties: false
+        LoginRequest:
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+            required:
+                - email
+                - password
+            type: object
+            additionalProperties: false
+        User:
+            properties:
+                email:
+                    type: string
+            required:
+                - email
+            type: object
+            additionalProperties: false
+    securitySchemes:
+        jwt:
+            type: apiKey
+            name: x-access-token
+            in: header
+info:
+    title: recruitment-factorial-backend
+    version: 1.0.0
+    description: ""
+    contact:
+        email: alvarotrancon@gmail.com
+    termsOfService: 'http://swagger.io/terms/'
+    license:
+        name: Apache
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+openapi: 3.0.0
+paths:
+    /metrics:
+        get:
+            operationId: GetMetricsByNameAvg
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetMetricsResponse'
+            description: 'Retrieves metrics grouped by average'
+            tags:
+                - Metrics
+            security:
+                -
+                    jwt: []
+            parameters:
+                -
+                    in: query
+                    name: groupBy
+                    required: true
+                    schema:
+                        $ref: '#/components/schemas/MetricsGroupBy'
+                -
+                    in: query
+                    name: from
+                    required: false
+                    schema:
+                        format: double
+                        type: number
+                -
+                    in: query
+                    name: upTo
+                    required: false
+                    schema:
+                        format: double
+                        type: number
+        post:
+            operationId: CreateMetric
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - {$ref: '#/components/schemas/MetricDb'}
+                                    - {properties: {_id: {$ref: '#/components/schemas/ObjectId'}}, required: [_id], type: object}
+            description: 'Retrieves metrics grouped by average'
+            tags:
+                - Metrics
+            security:
+                -
+                    jwt: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Metric'
+    /users/login:
+        post:
+            operationId: Login
+            responses:
+                '200':
+                    description: Ok
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginResponse'
+            description: 'Retrieves a user token by email and password'
+            tags:
+                - Users
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+    /users/signup:
+        post:
+            operationId: Signup
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+            description: 'Creates a new user in database with the provided email and password'
+            tags:
+                - Users
+            security: []
+            parameters: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+servers:
+    -
+        url: 'http://localhost:4000/api'
