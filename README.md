@@ -20,4 +20,6 @@ We want a Frontend + Backend application that allows you to post and visualize m
 - Start the frontend application by navigating to the `frontend` folder and running `npm run start`. This will start the application on port 3000.
 - Navigate to `http://localhost:3000` and log in with the seeded user, or go to signup and create your own.
 
+### Starting everything
 
+- Another `docker-compose.yaml` file is provided at the root of the repository. Just run `docker-compose up` from the root of this project and it will lift up all required services: database on port 27017, backend on 4000 and frontend on 3000 and also the mongo admin on 8081. Beware, if its this first time you start the application, you will need to seed the database  for data to appear.

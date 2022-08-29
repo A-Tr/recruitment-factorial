@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:5.0
+    container_name: local_mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+      - ./scripts/mongo-init
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_admin
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - PORT=8081
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234
+      - ME_CONFIG_MONGODB_SERVER=local_mongodb
+    links:
+      - "mongodb"
+
+  backend:
+    build: ./backend
+    container_name: backend_service
+    restart: always
+    ports:
+      - 4000:4000
+    environment:
+      - PORT=4000
+      - DB_USERNAME=admin
+      - DB_PASSWORD=1234
+      - DB_HOST=local_mongodb
+      - DB_PORT=27017
+      - DB_NAME=factorial
+      - JWT_SECRET=iamasecret
+    links:
+      - "mongodb"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_API_BASE_URL: http://backend_service:4000
+    container_name: frontend
+    restart: always
+    ports:
+      - 3000:80
+    links:
+      - "backend"

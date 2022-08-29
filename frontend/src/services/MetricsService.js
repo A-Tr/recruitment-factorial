@@ -2,11 +2,18 @@ import getToken from '../helpers/AuthHeader';
 import {get, post} from '../helpers/Fetch';
 
 const getMetrics = ({groupBy}) => {
-  return get(`http://localhost:4000/api/metrics?groupBy=${groupBy}`, getToken());
+  return get(
+      `${process.env.REACT_APP_API_BASE_URL}/api/metrics?groupBy=${groupBy}`,
+      getToken(),
+  );
 };
 
 const insertMetric = ({name, value, timestamp}) => {
-  return post(`http://localhost:4000/api/metrics`, getToken(), {name, value, timestamp});
+  return post(`${process.env.REACT_APP_API_BASE_URL}/api/metrics`, getToken(), {
+    name,
+    value,
+    timestamp,
+  });
 };
 
 const MetricsService = {
