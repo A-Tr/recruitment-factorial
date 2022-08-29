@@ -13,15 +13,20 @@ import { logger } from './common/Logger';
 import { errorHandler } from './common/middleware/ErrorHandler';
 import { RegisterRoutes } from './common/Routes';
 import { connectToDb, disconnectFromDb } from './common/Database';
+import { container } from 'tsyringe';
+import { UserModel } from './domains/users/model/UserDb';
+import { MetricModel } from './domains/metrics/model/MetricDb';
 
 async function start() {
   logger.info(`Starting server...`);
 
-  const app = express();
   await connectToDb()
-  
+  container.register('UserModel', {useValue: UserModel});
+  container.register('MetricModel', {useValue: MetricModel});
+
   const port = getEnv('PORT', false) || 3000;
-  
+
+  const app = express();
   app.use(express.json({ strict: false }));
   app.use(cors());
   

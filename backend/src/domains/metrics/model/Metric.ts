@@ -4,8 +4,6 @@ export interface Metric {
   timestamp: number,
 }
 
-
-
 export type MetricsGroupBy = 'minute' | 'hour' | 'day'
 
 export const metricsGroupByTimeMap = {

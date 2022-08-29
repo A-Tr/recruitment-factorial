@@ -34,7 +34,7 @@ export class MetricsService {
     const metricsMap: GroupedMetrics = metricsDb.reduce(
       (acc, curr) => {
         const roundedTimestamp = new Date(
-          Math.round(curr.timestamp / timeAggregator) * timeAggregator * 1000,
+          Math.floor(curr.timestamp / timeAggregator) * timeAggregator * 1000,
         ).toUTCString();
         const metricName = curr.name as MetricName;
 

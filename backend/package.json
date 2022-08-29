@@ -10,7 +10,8 @@
     "prebuild": "npm run spec",
     "build": "tsc",
     "start": "node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:cover": "jest --coverage",
     "lint": "eslint --ext .ts --fix .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "db:seed": "ts-node scripts/seedMetrics.ts && ts-node scripts/seedUsers.ts"
@@ -35,6 +36,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "4.17.13",
+    "@types/jest": "^28.1.8",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "18.7.13",
     "@types/swagger-ui-express": "4.1.3",

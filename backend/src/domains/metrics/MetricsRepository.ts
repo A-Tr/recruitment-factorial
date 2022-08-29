@@ -1,11 +1,14 @@
-import { singleton } from "tsyringe"
+import { Model } from "mongoose"
+import { inject, singleton } from "tsyringe"
 import { DatabaseError } from "../../common/errors/DomainError"
 import { getErrorMessage } from "../../common/errors/ErrorMapper"
-import { Metric, MetricName } from "./model/Metric"
-import { MetricModel } from "./model/MetricDb"
+import { Metric } from "./model/Metric"
+import { MetricDb } from "./model/MetricDb"
 
 @singleton()
 export class MetricsRepository {
+  constructor(@inject('MetricModel') private metricModel: Model<MetricDb>) {}
+
   async find(fromTimestamp?: number, upToTimestamp?: number) {
     const queryParams: {[key: string]: any} = {
       timestamp: { $gte: 0 },
@@ -18,7 +21,7 @@ export class MetricsRepository {
     }
 
     try {
-      return await MetricModel.find(queryParams, null, { sort: {timestamp: 1 }})
+      return await this.metricModel.find(queryParams, null, { sort: {timestamp: 1 }})
     } catch (error) {
       throw new DatabaseError(`Error retrieving metrics from database. ${getErrorMessage(error)}`)
     }
@@ -26,7 +29,7 @@ export class MetricsRepository {
 
   async create(metric: Metric) {
     try {
-      return await MetricModel.create(metric)
+      return await this.metricModel.create(metric)
     } catch (error) {
       throw new DatabaseError(`Error inserting metric ${metric}. ${getErrorMessage(error)}`)
     }

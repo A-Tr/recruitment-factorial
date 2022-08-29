@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-export interface Metric {
-  name: string,
-  value: number,
-  timestamp: number,
-}
-
 export interface MetricDb extends mongoose.Document {
   name: string,
   value: number,
