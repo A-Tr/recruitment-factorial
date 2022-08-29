@@ -71,6 +71,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "email": {"dataType":"string","required":true},
             "token": {"dataType":"string","required":true},
+            "tokenExpiresIn": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },

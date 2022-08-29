@@ -1,5 +1,6 @@
 import { Get, Controller, Route, Tags, Security, Query, Post, Body } from 'tsoa';
 import { inject, injectable } from 'tsyringe';
+import { logger } from '../../common/Logger';
 import { MetricsService } from './MetricsService';
 import { Metric, MetricsGroupBy } from './model/Metric';
 

@@ -10,7 +10,6 @@ import Dashboard from './pages/Dashboard';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
-import InsertMetric from './pages/InsertMetric';
 
 function App() {
   const isLogged = !!localStorage.getItem('token');
@@ -33,7 +32,6 @@ function App() {
           <Route element={<SignUp />} path="/signup" exact />
           <Route element={<PrivateRoutes />}>
             <Route element={<Dashboard />} path="/dashboard" exact />
-            <Route element={<InsertMetric />} path="/insert" exact />
           </Route>
         </Routes>
       </Router>

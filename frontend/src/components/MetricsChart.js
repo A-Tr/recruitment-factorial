@@ -16,7 +16,7 @@ export default function MetricsChart({data}) {
             data.temperature.map((d) => ({x: d.timestamp, y: d.average})) :
             [],
         borderColor: 'rgb(227, 46, 12)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(248, 126, 105, 0.85)',
         showLine: true,
       },
       {
@@ -26,7 +26,7 @@ export default function MetricsChart({data}) {
             data.voltage.map((d) => ({x: d.timestamp, y: d.average})) :
             [],
         borderColor: 'rgba(232, 202, 12, 0.5)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(239, 219, 91, 0.85)',
         showLine: true,
       },
       {
@@ -36,7 +36,7 @@ export default function MetricsChart({data}) {
             data.humidity.map((d) => ({x: d.timestamp, y: d.average})) :
             [],
         borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(53, 162, 235, 0.85)',
         showLine: true,
       },
     ],

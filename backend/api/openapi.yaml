@@ -72,9 +72,13 @@ components:
                     type: string
                 token:
                     type: string
+                tokenExpiresIn:
+                    type: number
+                    format: double
             required:
                 - email
                 - token
+                - tokenExpiresIn
             type: object
             additionalProperties: false
         LoginRequest:
