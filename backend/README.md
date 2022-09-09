@@ -8,7 +8,7 @@ Core dependencies:
 - [Typescript](https://www.typescriptlang.org/)
 - [TSOA](https://github.com/lukeautry/tsoa) for generating routes and OpenAPI.
 - [tsyringe](https://github.com/microsoft/tsyringe) Dependency injection framework.
-- [https://mongoosejs.com/](https://node-postgres.com/) for interacting with PostgreSQL database.
+- [https://mongoosejs.com/](https://node-postgres.com/) for interacting with MongoDB database.
 
 ## How to start the service
 You can find the instructions in the main [README](../README.md).
